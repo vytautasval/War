@@ -28,7 +28,7 @@ class WarGame:
     def calculate_strength(self, card):
         card_relation = {"2": 1, "3": 2, "4": 3, "5": 4, "6": 5, "7": 6,
                          "8": 7, "9": 8, "10": 9, "J": 10, "Q": 11, "K": 12, "A": 13}
-        
+
         return card_relation[card[:-1]]
 
     def base_move(self):
