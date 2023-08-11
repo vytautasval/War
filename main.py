@@ -10,7 +10,7 @@ def main():
     while len(p1_deck) or len(p2_deck) != 52:
         if card_turner ==
 
-def card_turner(p1_deck, p2_deck):
+def base_move(p1_deck, p2_deck):
     p1_card = p1_deck[0]
     p2_card = p2_deck[0]
     p2_deck.remove(p2_card)
@@ -26,6 +26,9 @@ def card_turner(p1_deck, p2_deck):
             p2_str = strenght
             break
 
+    strength_comparison(p1_str, p2_str, p1_card, p2_card, p1_deck, p2_deck)
+
+def strength_comparison(p1_str, p2_str, p1_card, p2_card, p1_deck, p2_deck):
     if p1_str > p2_str:
         p1_deck.append(p1_card, p2_card)
         return p1_deck, p2_deck
