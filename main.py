@@ -14,6 +14,7 @@ def main():
         else:
             continue
 
+#Performs the base move of a card draw and comparison of values.
 def base_move(p1_deck, p2_deck):
     p1_card = p1_deck[0]
     p2_card = p2_deck[0]
@@ -29,12 +30,15 @@ def base_move(p1_deck, p2_deck):
         if rank == p2_card.rstrip("cdhs"):
             p2_str = strenght
 
+    return round_resolution_check(p1_str, p2_str, p1_card, p2_card, p1_deck, p2_deck)
+
+
+def round_resolution_check(p1_str, p2_str, p1_card, p2_card, p1_deck, p2_deck):
     if isinstance(strength_comparison(p1_str, p2_str, p1_card, p2_card, p1_deck, p2_deck), bool):
         return True
     else:
         p1_deck, p2_deck = strength_comparison(p1_str, p2_str, p1_card, p2_card, p1_deck, p2_deck)
         return p1_deck, p2_deck
-
 
 def strength_comparison(p1_str, p2_str, p1_card, p2_card, p1_deck, p2_deck):
     time.sleep(2)
