@@ -1,4 +1,5 @@
 import random
+import time
 
 class Player_1():
     ...
@@ -8,31 +9,49 @@ class Player_2():
 def main():
     p1_deck, p2_deck = deck_dealer()
     while len(p1_deck) or len(p2_deck) != 52:
-        if card_turner ==
+        if base_move(p1_deck, p2_deck) == True:
+            ... #Goes into war and war_move
+        else:
+            continue
 
-def card_turner(p1_deck, p2_deck):
+def base_move(p1_deck, p2_deck):
     p1_card = p1_deck[0]
     p2_card = p2_deck[0]
+    print(f"Player 1 has drawn {p1_card}.")
+    print(f"Player 2 has drawn {p2_card}.")
     p2_deck.remove(p2_card)
     p1_deck.remove(p1_card)
 
-    p1_str = 0
-    p2_str = 0
-    for rank, strenght in card_comprehension().items():
-        if rank == p1_card.rstrip(["c", "d", "h", "s"]):
-            p1_str = strenght
-            break
-        if rank == p2_card.rstrip(["c", "d", "h", "s"]):
-            p2_str = strenght
-            break
 
+    for rank, strenght in card_comprehension().items():
+        if rank == p1_card.rstrip("cdhs"):
+            p1_str = strenght
+        if rank == p2_card.rstrip("cdhs"):
+            p2_str = strenght
+
+    if isinstance(strength_comparison(p1_str, p2_str, p1_card, p2_card, p1_deck, p2_deck), bool):
+        return True
+    else:
+        p1_deck, p2_deck = strength_comparison(p1_str, p2_str, p1_card, p2_card, p1_deck, p2_deck)
+        return p1_deck, p2_deck
+
+
+def strength_comparison(p1_str, p2_str, p1_card, p2_card, p1_deck, p2_deck):
+    time.sleep(2)
     if p1_str > p2_str:
-        p1_deck.append(p1_card, p2_card)
+        p1_deck.append(p1_card)
+        p1_deck.append(p2_card)
+        print(f"Player 1 has won this round. They have taken {p1_card} and {p2_card}.")
+        print(f"Player 1 has {len(p1_deck)} cards left. Player 2 has {len(p2_deck)}.")
         return p1_deck, p2_deck
     elif p2_str > p1_str:
-        p2_deck.append(p2_card, p1_card)
+        p2_deck.append(p2_card)
+        p2_deck.append(p1_card)
+        print(f"Player 2 has won this round. They have taken {p2_card} and {p1_card}.")
+        print(f"Player 2 has {len(p2_deck)} cards left. Player 2 has {len(p1_deck)}.")
         return p1_deck, p2_deck
     elif p1_str == p2_str:
+        print("War!")
         return True
 
 
@@ -62,3 +81,6 @@ def card_comprehension():
                      "8": 7, "9": 8, "10": 9, "J": 10, "Q": 11, "K": 12, "A": 13}
 
     return card_relation
+
+if __name__ == "__main__":
+    main()
