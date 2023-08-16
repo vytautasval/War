@@ -6,6 +6,7 @@ class WarGame:
         self.deck = []
         self.p1_deck = []
         self.p2_deck = []
+        self.war_deck = []
 
     def initialize_deck(self):
         self.deck = ["Ac", "Ad", "Ah", "As", "2c", "2d", "2h", "2s", "3c", "3d", "3h", "3s",
@@ -25,39 +26,66 @@ class WarGame:
 
         return self.p1_deck, self.p2_deck
 
-    def calculate_strength(self, card):
+    def strenght_check(self, p1_card, p2_card):
+
         card_relation = {"2": 1, "3": 2, "4": 3, "5": 4, "6": 5, "7": 6,
                          "8": 7, "9": 8, "10": 9, "J": 10, "Q": 11, "K": 12, "A": 13}
 
-        return card_relation[card[:-1]]
+        p1_str = card_relation[p1_card[:-1]]
+        p2_str = card_relation[p2_card[:-1]]
 
-    def base_move(self):
-        p1_card = self.p1_deck[0]
-        p2_card = self.p2_deck[0]
-        print(f"Player 1 has drawn {p1_card}.")
-        print(f"Player 2 has drawn {p2_card}.")
-        self.p2_deck.remove(p2_card)
-        self.p1_deck.remove(p1_card)
+        return p1_str, p2_str
 
-        p1_str = self.calculate_strength(p1_card)
-        p2_str = self.calculate_strength(p2_card)
+    def round_check(self, p1_card, p2_card):
 
-        time.sleep(2)
+        p1_str, p2_str = self.strenght_check(p1_card, p2_card)
+
+        time.sleep(1)
         if p1_str > p2_str:
             self.p1_deck.append(p1_card)
             self.p1_deck.append(p2_card)
             print(f"Player 1 has won this round. They have taken {p1_card} and {p2_card}.")
             print(f"Player 1 has {len(self.p1_deck)} cards left. Player 2 has {len(self.p2_deck)}.")
-            return self.p1_deck, self.p2_deck
         elif p2_str > p1_str:
             self.p2_deck.append(p2_card)
             self.p2_deck.append(p1_card)
             print(f"Player 2 has won this round. They have taken {p2_card} and {p1_card}.")
             print(f"Player 2 has {len(self.p2_deck)} cards left. Player 1 has {len(self.p1_deck)}.")
-            return self.p1_deck, self.p2_deck
         elif p1_str == p2_str:
             print("War!")
+            self.war_deck.append(p1_card)
+            self.war_deck.append(p2_card)
             return True
+
+
+    def base_move(self):
+        p1_card = self.p1_deck[0]
+        p2_card = self.p2_deck[0]
+
+        print(f"Player 1 has drawn {p1_card}.")
+        print(f"Player 2 has drawn {p2_card}.")
+        self.p2_deck.remove(p2_card)
+        self.p1_deck.remove(p1_card)
+
+        return self.round_check(p1_card, p2_card)
+
+
+    def war_move(self):
+        p1_card_up = self.p1_deck[1]
+        p1_card_down = self.p1_deck[0]
+        p2_card_up = self.p1_deck[1]
+        p2_card_down = self.p1_deck[0]
+
+        print(f"Player 1 has drawn {p1_card_up}.")
+        print(f"Player 2 has drawn {p2_card_up}.")
+        self.p2_deck.remove(p2_card_up)
+        self.p2_deck.remove(p2_card_down)
+        self.p1_deck.remove(p1_card_up)
+        self.p2_deck.remove(p1_card_down)
+
+        self.war_deck.append(p1_card)
+
+
 
 def main():
     card_game = WarGame()
@@ -68,6 +96,8 @@ def main():
     while len(p1_deck) or len(p2_deck) != 52:
         result = card_game.base_move()
         if result == True:
+            card_game.war_move()
+            print("heyooooooooooooooooooooooooooooooo")
             ... #Goes into war and war_move
         else:
             continue
