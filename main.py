@@ -77,16 +77,17 @@ class WarGame:
         if p1_str > p2_str:
             self.p1_deck.extend(self.war_deck)
             self.war_deck.clear()
-            print(f"Player 1 has won this round. They have taken the whole lost.")
+            print(f"Player 1 has won this round. They have taken the whole lot.")
             print(f"Player 1 has {len(self.p1_deck)} cards left. Player 2 has {len(self.p2_deck)}.")
         elif p1_str < p2_str:
             self.p2_deck.extend(self.war_deck)
             self.war_deck.clear()
-            print(f"Player 2 has won this round. They have taken the whole lost.")
+            print(f"Player 2 has won this round. They have taken the whole lot.")
             print(f"Player 2 has {len(self.p2_deck)} cards left. Player 1 has {len(self.p1_deck)}.")
         elif p1_str == p2_str:
             print("The war rages on!")
             self.war_move()
+
 
     def war_move(self):
         p1_card = self.p1_deck[1]
@@ -106,6 +107,7 @@ class WarGame:
         self.war_deck.append(p2_card)
         self.war_deck.append(p2_card_down)
 
+        return self.war_round_check(p1_card, p2_card)
 
 def main():
     card_game = WarGame()
@@ -114,8 +116,8 @@ def main():
     p1_deck, p2_deck = card_game.deal_cards()
 
     while len(p1_deck) or len(p2_deck) != 52:
-        result = card_game.base_move()
-        if result == True:
+        result_base = card_game.base_move()
+        if result_base == True:
             card_game.war_move()
             ... #Goes into war and war_move
         elif len(p1_deck) == 52:
